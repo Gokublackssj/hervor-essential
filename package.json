@@ -1,0 +1,27 @@
+{
+  "name": "hervor-cafe",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hervor, café de altura: demo conceptual del paquete Essential (negocio ficticio).",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@fontsource-variable/bodoni-moda": "5.3.0",
+    "@fontsource-variable/hanken-grotesk": "5.3.0",
+    "astro": "7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@playwright/test": "1.64.1",
+    "typescript": "^6.0.0"
+  }
+}

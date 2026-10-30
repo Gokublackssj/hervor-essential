@@ -1,0 +1,275 @@
+/* -------------------------------------------------
+   Tokens
+-------------------------------------------------- */
+:root {
+  --espresso: #130f0c;
+  --tueste: #1d1612;
+  --nogal: #2c211a;
+  --linea: #3a2d24;
+  --crema: #efe4d2;
+  --crema-2: #b8a891;
+  --cobre: #c27b47;
+  --cobre-claro: #d69563;
+  --sobre-cobre: #160f0a;
+  --abierto: #93c28a;
+  --error: #f0a28f;
+
+  --serif: "Bodoni Moda Variable", "Bodoni 72", Didot, Georgia, serif;
+  --sans: "Hanken Grotesk Variable", system-ui, sans-serif;
+
+  --paso-display: clamp(3rem, 1.4rem + 5.4vw, 6.25rem);
+  --paso-titulo: clamp(2.5rem, 1.55rem + 3vw, 4.25rem);
+  --paso-sub: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --paso-entrada: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --paso-texto: 1.0625rem;
+  --paso-nota: 0.875rem;
+
+  --margen: clamp(1rem, 4vw, 3rem);
+  --ancho: 1360px;
+  --seccion: clamp(5.5rem, 4rem + 6vw, 10rem);
+
+  --radio-foto: 6px;
+  --radio-panel: 16px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-cajon: cubic-bezier(0.32, 0.72, 0, 1);
+
+  color-scheme: dark;
+}
+
+/* -------------------------------------------------
+   Base
+-------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--espresso);
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+html.motion {
+  scroll-behavior: smooth;
+}
+
+html.con-modal {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--espresso);
+  color: var(--crema);
+  font: 400 var(--paso-texto) / 1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.25em;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--crema);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--cobre);
+  color: var(--sobre-cobre);
+}
+
+/* El atributo hidden gana siempre, aunque la clase del elemento le dé un
+   display (por ejemplo, los botones del pie de la reserva). */
+[hidden] {
+  display: none !important;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px; /* taste-skill-ignore: texto solo para lectores de pantalla */
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: var(--crema);
+  color: var(--espresso);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+.contenedor {
+  width: min(100% - 2 * var(--margen), var(--ancho));
+  margin-inline: auto;
+}
+
+.nota,
+.nota-demo {
+  font-size: var(--paso-nota);
+  color: var(--crema-2);
+}
+
+.nota-demo {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.titulo-2 {
+  font: 400 var(--paso-titulo) / 1.02 var(--serif);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Sin JavaScript no se puede reservar: los botones se ocultan. */
+html:not(.js) [data-abrir-reserva] {
+  display: none;
+}
+
+/* -------------------------------------------------
+   Botones
+-------------------------------------------------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  border: 1px solid transparent; /* taste-skill-ignore: botón secundario de contorno */
+  border-radius: 999px;
+  font: 600 0.9375rem / 1 var(--sans);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 160ms var(--ease-out);
+}
+
+.boton--cobre {
+  background: var(--cobre);
+  color: var(--sobre-cobre);
+}
+
+.boton--cobre:hover {
+  background: var(--cobre-claro);
+}
+
+.boton--linea {
+  border-color: var(--crema-2);
+  background: transparent;
+  font-weight: 500;
+}
+
+.boton--linea:hover {
+  border-color: var(--crema);
+  background: var(--nogal);
+}
+
+.boton--texto {
+  padding-inline: 0.75rem;
+  background: transparent;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+.boton--texto:hover {
+  text-decoration-color: currentColor;
+}
+
+.boton--sm {
+  min-height: 40px;
+  padding: 0 1.1rem;
+  font-size: 0.875rem;
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.icono-boton {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--nogal);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 160ms var(--ease-out);
+}
+
+.icono-boton:hover {
+  background: var(--linea);
+}
+
+.icono-boton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.motion .boton:active:not(:disabled),
+.motion .icono-boton:active:not(:disabled),
+.motion .pestana:active {
+  transform: scale(0.97);
+}

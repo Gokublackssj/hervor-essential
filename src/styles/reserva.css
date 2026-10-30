@@ -1,0 +1,351 @@
+/* -------------------------------------------------
+   Reserva
+-------------------------------------------------- */
+.reserva {
+  width: min(560px, 100% - 2rem);
+  max-height: min(780px, 100dvh - 2rem);
+  margin: auto;
+  border-radius: 20px;
+  background: var(--tueste);
+  box-shadow: 0 0 0 1px var(--linea), 0 30px 60px -20px rgb(0 0 0 / 0.6); /* taste-skill-ignore: a real overlay */
+}
+
+.reserva-form {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.reserva-cabeza {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem 0;
+  background: var(--tueste);
+}
+
+.reserva-titulo {
+  font: 400 1.875rem / 1.1 var(--serif);
+}
+
+.reserva-paso {
+  margin-top: 0.25rem;
+  color: var(--crema-2);
+  font-size: 0.875rem;
+}
+
+.reserva-progreso {
+  grid-column: 1 / -1;
+  height: 2px;
+  margin-top: 0.5rem;
+  background: var(--nogal);
+}
+
+.reserva-progreso span {
+  display: block;
+  height: 100%;
+  background: var(--cobre);
+  transform: scaleX(0.25);
+  transform-origin: left;
+  transition: transform 420ms var(--ease-out);
+}
+
+.reserva-demo {
+  margin: 1.25rem 1.5rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgb(194 123 71 / 0.16);
+  font-size: 0.875rem;
+}
+
+.reserva-etapa {
+  padding: 1.5rem;
+}
+
+.reserva-etapa-titulo {
+  font: 400 1.5rem / 1.2 var(--serif);
+}
+
+.reserva-etapa-titulo:focus {
+  outline: none;
+}
+
+.campo {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.campo legend,
+.campo > label {
+  display: block;
+  margin-bottom: 0.6rem;
+  padding: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.campo-ayuda {
+  color: var(--crema-2);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.campo > .campo-ayuda {
+  margin-top: 0.4rem;
+}
+
+.campo-error {
+  margin-top: 0.45rem;
+  color: var(--error);
+  font-size: 0.875rem;
+}
+
+.campo input[type="text"],
+.campo textarea {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--linea);
+  border-radius: 12px;
+  background: var(--espresso);
+  font-size: 1rem;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.campo textarea {
+  resize: vertical;
+}
+
+.campo input[type="text"]:focus,
+.campo textarea:focus {
+  border-color: var(--cobre);
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(194 123 71 / 0.25); /* taste-skill-ignore: anillo de foco */
+}
+
+.campo [aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+.fichas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ficha {
+  position: relative;
+  display: inline-grid;
+}
+
+.ficha input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ficha span {
+  display: block;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid var(--linea); /* taste-skill-ignore: control de formulario */
+  border-radius: 999px;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.ficha:hover span {
+  border-color: var(--crema-2);
+}
+
+.ficha input:checked + span,
+.ficha input:checked ~ span {
+  border-color: var(--crema);
+  background: var(--crema);
+  color: var(--espresso);
+}
+
+.ficha input:focus-visible + span,
+.ficha input:focus-visible ~ .ficha-arriba {
+  outline: 2px solid var(--crema);
+  outline-offset: 3px;
+}
+
+.ficha input:disabled {
+  cursor: not-allowed;
+}
+
+.ficha input:disabled ~ span {
+  opacity: 0.4;
+}
+
+.ficha--dia {
+  display: inline-grid;
+  justify-items: center;
+  min-width: 4.5rem;
+  border: 1px solid var(--linea); /* taste-skill-ignore: control de formulario */
+  border-radius: 14px;
+  overflow: hidden;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.ficha--dia span {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.ficha--dia .ficha-arriba {
+  padding-top: 0.55rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.ficha--dia .ficha-abajo {
+  padding-bottom: 0.55rem;
+  color: var(--crema-2);
+  font-size: 0.875rem;
+}
+
+.ficha--dia:has(input:checked) {
+  border-color: var(--crema);
+  background: var(--crema);
+}
+
+.ficha--dia input:checked ~ span {
+  background: transparent;
+  color: var(--espresso);
+}
+
+.ficha--dia:has(input:focus-visible) {
+  outline: 2px solid var(--crema);
+  outline-offset: 3px;
+}
+
+.ficha--dia input:focus-visible ~ .ficha-arriba {
+  outline: none;
+}
+
+.contador {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contador input {
+  width: 3rem;
+  border: 0;
+  background: none;
+  font: 400 2rem / 1 var(--serif);
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.contador input::-webkit-outer-spin-button,
+.contador input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.resumen > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--linea); /* taste-skill-ignore: filas de un resumen, como una tabla */
+}
+
+.resumen dt {
+  color: var(--crema-2);
+}
+
+.resumen dd {
+  overflow-wrap: anywhere;
+}
+
+.resumen dd:first-letter {
+  text-transform: uppercase;
+}
+
+.mensaje {
+  width: 100%;
+  min-height: 10rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--linea); /* taste-skill-ignore: campo de formulario */
+  border-radius: 12px;
+  background: var(--espresso);
+  font-size: 1rem;
+  line-height: 1.55;
+  resize: none;
+}
+
+.reserva-aviso {
+  margin-top: 1rem;
+  color: var(--crema-2);
+  font-size: 0.875rem;
+}
+
+.reserva-aviso strong {
+  color: var(--crema);
+}
+
+.reserva-copiado {
+  min-height: 1.4em;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.reserva-pie {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--linea); /* taste-skill-ignore: barra fija del diálogo */
+  background: var(--tueste);
+}
+
+.reserva-pie-espacio {
+  flex: 1;
+}
+
+@media (max-width: 599px) {
+  .reserva {
+    width: 100%;
+    max-height: 94dvh;
+    margin: auto 0 0;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .reserva-pie .boton {
+    flex: 1 1 auto;
+  }
+
+  .reserva-pie-espacio {
+    display: none;
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.taste-skill/
+test-results/
+playwright-report/
+
+# Variables de entorno y registros (la demo no usa ninguno; por prevención)
+.env
+.env.*
+*.log

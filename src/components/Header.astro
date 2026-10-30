@@ -1,0 +1,43 @@
+---
+// Cabecera fija: la marca, las cuatro secciones, el aviso de demo y el botón
+// de reservar. Se oculta al bajar y vuelve al subir (src/scripts/movimiento.ts).
+// Por debajo de 960 px los enlaces pasan a un menú a pantalla completa (un
+// <dialog> modal: el foco se queda dentro y Escape lo cierra).
+const enlaces = [
+  ["#carta", "Carta"],
+  ["#historia", "Historia"],
+  ["#galeria", "Galería"],
+  ["#visitanos", "Visítanos"],
+];
+---
+
+<header class="cabecera" data-cabecera>
+  <div class="contenedor cabecera-fila">
+    <a class="marca" href="#inicio" aria-label="Hervor, volver al inicio">Hervor<span class="marca-grado" aria-hidden="true">°</span></a>
+    <nav class="nav" aria-label="Secciones">
+      {enlaces.map(([href, texto]) => <a href={href}>{texto}</a>)}
+    </nav>
+    <p class="demo-etiqueta"><span>Demo</span> negocio ficticio</p>
+    <button class="boton boton--cobre boton--sm cabecera-reserva" type="button" data-abrir-reserva>Reservar mesa</button>
+    <button class="menu-abrir" type="button" aria-haspopup="dialog" aria-controls="menu-movil" data-menu-abrir>
+      <span class="menu-abrir-texto">Menú</span>
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 7h14M3 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    </button>
+  </div>
+</header>
+
+<dialog class="menu-movil" id="menu-movil" aria-label="Menú" data-menu>
+  <div class="menu-movil-cabeza">
+    <span class="marca" aria-hidden="true">Hervor<span class="marca-grado">°</span></span>
+    <button class="icono-boton" type="button" aria-label="Cerrar el menú" data-menu-cerrar>
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    </button>
+  </div>
+  <nav class="menu-movil-nav" aria-label="Secciones">
+    {enlaces.map(([href, texto], i) => <a href={href} style={`--i: ${i}`}>{texto}</a>)}
+  </nav>
+  <div class="menu-movil-pie">
+    <button class="boton boton--cobre" type="button" data-abrir-reserva>Reservar mesa</button>
+    <p class="nota">Demo conceptual: Hervor es un negocio ficticio.</p>
+  </div>
+</dialog>

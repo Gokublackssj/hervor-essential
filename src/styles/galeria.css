@@ -1,0 +1,220 @@
+/* -------------------------------------------------
+   Galería y visor
+-------------------------------------------------- */
+.mosaico {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(2, clamp(170px, 15vw, 250px));
+  gap: 12px;
+}
+
+.mosaico-1 {
+  grid-column: 1 / 6;
+  grid-row: 1 / 3;
+}
+
+.mosaico-2 {
+  grid-column: 6 / 9;
+  grid-row: 1;
+}
+
+.mosaico-3 {
+  grid-column: 9 / -1;
+  grid-row: 1 / 3;
+}
+
+.mosaico-4 {
+  grid-column: 6 / 9;
+  grid-row: 2;
+}
+
+.mosaico li {
+  overflow: hidden;
+  border-radius: var(--radio-foto);
+}
+
+.mosaico-boton {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radio-foto);
+}
+
+.mosaico-boton:focus-visible {
+  outline-offset: -4px;
+}
+
+.mosaico-boton img,
+.mosaico-boton picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 800ms var(--ease-out);
+}
+
+.mosaico-lupa {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgb(19 15 12 / 0.7);
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 220ms ease,
+    transform 220ms var(--ease-out);
+}
+
+.mosaico-boton:focus-visible .mosaico-lupa {
+  opacity: 1;
+  transform: none;
+}
+
+/* En pantallas táctiles el icono está siempre: no hay hover que lo anuncie. */
+@media (hover: none) {
+  .mosaico-lupa {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mosaico-boton:hover .mosaico-lupa {
+    opacity: 1;
+    transform: none;
+  }
+
+  .motion .mosaico-boton:hover img {
+    transform: scale(1.04);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .mosaico {
+    grid-template-rows: repeat(2, clamp(140px, 21vw, 190px));
+  }
+}
+
+@media (max-width: 599px) {
+  .mosaico {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .mosaico-1,
+  .mosaico-3 {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .mosaico-2,
+  .mosaico-4 {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 1;
+  }
+
+  /* Orden de lectura en móvil: grande, dos pequeñas, grande. */
+  .mosaico-3 {
+    order: 4;
+  }
+}
+
+.visor {
+  width: 100%;
+  height: 100dvh;
+  margin: 0;
+  background: rgb(12 9 7 / 0.97);
+}
+
+.visor[open] {
+  display: grid;
+  place-items: center;
+}
+
+.visor::backdrop {
+  background: transparent;
+}
+
+.visor-figura {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  max-width: min(100% - 2 * var(--margen), 1400px);
+  padding-block: 5rem 6rem;
+  touch-action: pan-y;
+}
+
+.visor-figura img {
+  max-width: 100%;
+  max-height: calc(100dvh - 12rem);
+  width: auto;
+  height: auto;
+  border-radius: var(--radio-foto);
+  transition: opacity 250ms ease;
+}
+
+.visor-figura img.cargando {
+  opacity: 0.25;
+}
+
+.visor-figura figcaption {
+  max-width: 60ch;
+  color: var(--crema-2);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.visor-contador {
+  position: absolute;
+  top: 1.5rem;
+  left: var(--margen);
+  color: var(--crema-2);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.visor-cerrar {
+  position: absolute;
+  top: 0.75rem;
+  right: var(--margen);
+}
+
+.visor-anterior,
+.visor-siguiente {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.visor-anterior {
+  left: var(--margen);
+}
+
+.visor-siguiente {
+  right: var(--margen);
+}
+
+@media (max-width: 899px) {
+  .visor-anterior,
+  .visor-siguiente {
+    top: auto;
+    bottom: 1.5rem;
+    translate: none;
+  }
+
+  .visor-anterior {
+    left: calc(50% - 56px);
+  }
+
+  .visor-siguiente {
+    right: calc(50% - 56px);
+  }
+}

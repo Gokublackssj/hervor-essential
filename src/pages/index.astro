@@ -1,0 +1,33 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Casa from "../components/Casa.astro";
+import Carta from "../components/Carta.astro";
+import Historia from "../components/Historia.astro";
+import Galeria from "../components/Galeria.astro";
+import Visitanos from "../components/Visitanos.astro";
+import Reserva from "../components/Reserva.astro";
+import Pie from "../components/Pie.astro";
+---
+
+<Base
+  title="Hervor, café de altura · Potosí"
+  description="Café de especialidad boliviano preparado para la altura de Potosí, donde el agua hierve a unos 87 °C. Demo conceptual de un negocio ficticio."
+>
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <Casa />
+    <Carta />
+    <Historia />
+    <Galeria />
+    <Visitanos />
+  </main>
+  <Pie />
+  <Reserva />
+</Base>
+
+<script>
+  import "../scripts/main";
+</script>

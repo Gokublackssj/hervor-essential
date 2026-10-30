@@ -1,0 +1,36 @@
+---
+import { Picture } from "astro:assets";
+import { fotos } from "../data/fotos";
+---
+
+<!-- La casa: la foto ancha de la sala y el texto montado sobre su borde
+     inferior (un desplazamiento, no una tarjeta más en fila). -->
+<section class="seccion casa" id="la-casa" aria-labelledby="casa-titulo">
+  <div class="contenedor casa-grid">
+    <figure class="casa-foto" data-revelar="desde-izquierda">
+      <div class="marco" data-profundidad="0.08">
+        <Picture
+          src={fotos.casa}
+          formats={["avif", "webp"]}
+          widths={[640, 960, 1280, 1800]}
+          sizes="(max-width: 899px) 100vw, 66vw"
+          alt="La mesa larga de madera bajo dos lámparas de papel, junto a una ventana con reja"
+          loading="lazy"
+          decoding="async"
+          quality={68}
+        />
+      </div>
+    </figure>
+    <div class="casa-texto" data-revelar="subir">
+      <h2 id="casa-titulo" class="titulo-2">Una casona, una mesa larga</h2>
+      <p>
+        Hervor ocupa la planta baja de una casa del casco histórico: muros gruesos, ventanas con reja y una mesa de madera donde se sientan juntos quienes no se conocen. La barra está a la vista, para que veas cómo se prepara cada taza.
+      </p>
+      <ul class="casa-datos">
+        <li><strong>Barra abierta.</strong> Cada preparación se hace delante de ti.</li>
+        <li><strong>Mesa para catorce</strong> y seis mesas pequeñas junto a las ventanas.</li>
+        <li><strong>Tostado propio</strong> en lotes pequeños, dos veces por semana.</li>
+      </ul>
+    </div>
+  </div>
+</section>

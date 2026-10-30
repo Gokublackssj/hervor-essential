@@ -1,0 +1,203 @@
+/* -------------------------------------------------
+   Cabecera y menú del móvil
+-------------------------------------------------- */
+.cabecera {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 1px solid transparent; /* taste-skill-ignore: barra fija */
+  transition:
+    transform 320ms var(--ease-out),
+    background-color 240ms ease,
+    border-color 240ms ease;
+}
+
+.cabecera.con-fondo {
+  border-color: var(--linea);
+  background: color-mix(in srgb, var(--espresso) 94%, transparent);
+}
+
+.cabecera.oculta {
+  transform: translateY(-100%);
+}
+
+.cabecera-fila {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  height: 72px;
+}
+
+.marca {
+  font: 500 1.75rem / 1 var(--serif);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.marca-grado {
+  margin-left: 0.04em;
+  color: var(--cobre);
+  font-size: 0.7em;
+  vertical-align: 0.35em;
+}
+
+.nav {
+  display: flex;
+  gap: 1.75rem;
+  margin-left: auto;
+}
+
+.nav a {
+  position: relative;
+  padding-block: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0.2rem;
+  height: 1px; /* taste-skill-ignore: subrayado de enlace */
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms var(--ease-out);
+}
+
+.nav a:hover::after,
+.nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.demo-etiqueta {
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--nogal);
+  color: var(--crema-2);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.demo-etiqueta span {
+  color: var(--crema);
+  font-weight: 600;
+}
+
+.menu-abrir {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-left: auto;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--nogal);
+  font-weight: 500;
+}
+
+@media (max-width: 959px) {
+  .nav,
+  .cabecera-reserva {
+    display: none;
+  }
+
+  .menu-abrir {
+    display: inline-flex;
+  }
+
+  .demo-etiqueta {
+    order: 3;
+  }
+}
+
+@media (max-width: 420px) {
+  .cabecera-fila {
+    gap: 0.75rem;
+  }
+
+  .marca {
+    font-size: 1.5rem;
+  }
+
+  .demo-etiqueta {
+    padding-inline: 0.6rem;
+    font-size: 0;
+  }
+
+  .demo-etiqueta span {
+    font-size: 0.875rem;
+  }
+}
+
+/* Pantallas muy estrechas: el botón del menú queda en su icono; el texto
+   sigue ahí para los lectores de pantalla. */
+@media (max-width: 379px) {
+  .menu-abrir {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .menu-abrir-texto {
+    position: absolute;
+    width: 1px;
+    height: 1px; /* taste-skill-ignore: texto solo para lectores de pantalla */
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+/* Los tres <dialog>: sin estilos del navegador. */
+dialog {
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+dialog::backdrop {
+  background: rgb(8 6 5 / 0.74);
+}
+
+.menu-movil {
+  width: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0 var(--margen) 2rem;
+  background: var(--espresso);
+}
+
+.menu-movil[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-movil-cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.menu-movil-nav {
+  display: grid;
+  margin-top: clamp(1.5rem, 8vh, 4rem);
+}
+
+.menu-movil-nav a {
+  padding: 0.5rem 0;
+  font: 400 clamp(2.25rem, 9vw, 3.25rem) / 1.15 var(--serif);
+  text-decoration: none;
+}
+
+.menu-movil-pie {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  margin-top: auto;
+}

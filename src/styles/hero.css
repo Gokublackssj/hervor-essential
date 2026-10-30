@@ -1,0 +1,144 @@
+/* -------------------------------------------------
+   Hero
+-------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  min-height: max(640px, 100svh);
+}
+
+.hero-foto {
+  position: relative;
+  grid-column: 7 / -1;
+  grid-row: 1;
+  overflow: hidden;
+}
+
+/* La foto rellena la portada sin dictar su altura: con su altura natural
+   (2:3) estiraría la portada más allá de la primera pantalla. */
+.hero-foto picture {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-foto img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-foto img {
+  object-fit: cover;
+  object-position: 45% 55%;
+}
+
+/* Legibilidad de la cabecera sobre la foto. */
+.hero-foto::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 140px;
+  background: linear-gradient(to bottom, rgb(19 15 12 / 0.6), transparent); /* taste-skill-ignore: veladura de legibilidad sobre la foto */
+  pointer-events: none;
+}
+
+.hero-texto {
+  grid-column: 1 / 7;
+  grid-row: 1;
+  align-self: end;
+  padding: 8rem clamp(1.5rem, 4vw, 4rem) clamp(3rem, 9vh, 6rem) max(var(--margen), (100vw - var(--ancho)) / 2);
+}
+
+.hero-titulo {
+  font: 400 var(--paso-display) / 0.98 var(--serif);
+  letter-spacing: -0.025em;
+}
+
+.hero-titulo .linea {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.hero-titulo .linea > span {
+  display: block;
+}
+
+.hero-entrada {
+  max-width: 38ch;
+  margin-top: clamp(1.25rem, 3vh, 2rem);
+  font-size: var(--paso-entrada);
+  line-height: 1.55;
+}
+
+.hero-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 4vh, 2.25rem);
+}
+
+.hero-temperatura {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  max-width: 34rem;
+  margin-top: clamp(2.5rem, 7vh, 4rem);
+}
+
+.temp-antes {
+  color: var(--crema-2);
+  font-size: 1rem;
+  text-decoration: line-through;
+  text-decoration-color: var(--cobre);
+}
+
+.temp-cifra {
+  font: 400 clamp(2.5rem, 2rem + 1.6vw, 3.5rem) / 1 var(--serif);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.temp-texto {
+  flex-basis: 100%;
+  color: var(--crema-2);
+  font-size: 1rem;
+}
+
+/* Portátiles bajos: el titular algo menor para que la portada quepa entera. */
+@media (min-width: 900px) and (max-height: 800px) {
+  .hero-texto {
+    padding-top: 6rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .hero-titulo {
+    font-size: clamp(3rem, 0.8rem + 4.6vw, 5rem);
+  }
+
+  .hero-temperatura {
+    margin-top: 1.75rem;
+  }
+}
+
+@media (max-width: 899px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .hero-foto {
+    grid-column: 1;
+    height: min(62svh, 560px);
+  }
+
+  .hero-foto img {
+    object-position: 45% 62%;
+  }
+
+  .hero-texto {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 2.25rem var(--margen) 3.5rem;
+  }
+}

@@ -1,0 +1,65 @@
+---
+import { creditos } from "../data/fotos";
+import { direccion, filas, horario, hhmm } from "../data/horario";
+
+// Pie: la marca, horario y dirección resumidos, el aviso de demo, los créditos
+// de cada foto y quién hizo el sitio.
+const rango = (d: number) => `${hhmm(horario[d]!.abre)}–${hhmm(horario[d]!.cierra)}`;
+---
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie-grid">
+      <div class="pie-marca">
+        <p class="marca marca--grande">Hervor<span class="marca-grado" aria-hidden="true">°</span></p>
+        <p>Café de altura en Potosí, Bolivia.</p>
+      </div>
+      <div>
+        <h2 class="pie-titulo">Horario</h2>
+        <ul class="pie-lista">
+          {filas.map((f) => <li>{f.nombre}: {rango(f.dias[0]!)}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="pie-titulo">Dirección</h2>
+        <p>{direccion.calle}<br />{direccion.zona}</p>
+      </div>
+      <div>
+        <h2 class="pie-titulo">En la página</h2>
+        <ul class="pie-lista">
+          <li><a href="#carta">Carta</a></li>
+          <li><a href="#historia">Historia</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#visitanos">Visítanos</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pie-demo">
+      <p>
+        <strong>Hervor es un negocio ficticio.</strong> Esta página es una demo conceptual del paquete Essential: nombre, carta, precios, horario, dirección y teléfono son inventados, y ninguna reserva se envía.
+      </p>
+      <p>
+        Diseño y desarrollo: <a href="https://gokublackssj.github.io/" rel="noopener">luisdataworks</a>.
+      </p>
+    </div>
+
+    <details class="creditos">
+      <summary>Créditos de las fotografías</summary>
+      <p>Fotografías de Unsplash, bajo la licencia de Unsplash. No muestran el negocio, que no existe.</p>
+      <ul>
+        {
+          creditos.map((c) => (
+            <li>
+              {c.uso}: <a href={`https://unsplash.com/photos/${c.foto}`} rel="noopener">foto</a> de{" "}
+              <a href={`https://unsplash.com/@${c.perfil}`} rel="noopener">{c.autor}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </div>
+</footer>
+
+<!-- Avisos breves de la demo (enlaces desactivados, mensaje copiado). -->
+<div class="aviso" role="status" aria-live="polite" data-aviso></div>

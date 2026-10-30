@@ -1,0 +1,51 @@
+# Construye, prueba y publica en GitHub Pages. Solo se ejecuta a mano (Actions > Publicar >
+# Run workflow), y necesita Pages activado con «GitHub Actions» (Settings > Pages).
+# SITE y BASE salen del repositorio: para https://usuario.github.io/hervor-essential/,
+# SITE es https://usuario.github.io y BASE es /hervor-essential/. Con dominio propio, BASE es /.
+# Las acciones van fijadas por SHA; el comentario indica su versión.
+name: Publicar
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # Las pruebas, sobre una construcción con la ruta raíz; el runner trae Chrome.
+      - run: npm test
+        env:
+          CI: "true"
+      - run: npm run build
+        env:
+          SITE: https://${{ github.repository_owner }}.github.io
+          BASE: /${{ github.event.repository.name }}/
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

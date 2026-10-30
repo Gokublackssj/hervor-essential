@@ -1,0 +1,71 @@
+---
+import { Picture, getImage } from "astro:assets";
+import { galeria } from "../data/fotos";
+
+// Galería: cuatro fotos en mosaico. Cada una es un botón que abre el visor
+// (src/scripts/visor.ts): anterior y siguiente con botones, flechas o
+// deslizando, cierre con Escape o con el botón visible. Sin zoom, miniaturas
+// ni transiciones animadas entre la foto y el visor: eso queda para
+// Professional. Sin JavaScript, cada foto enlaza a su versión grande.
+const grandes = await Promise.all(
+  galeria.map((f) => getImage({ src: f.src, widths: [960, 1440, 2000], format: "webp", quality: 76 })),
+);
+---
+
+<section class="seccion galeria" id="galeria" aria-labelledby="galeria-titulo">
+  <div class="contenedor">
+    <div class="seccion-cabeza">
+      <h2 id="galeria-titulo" class="titulo-2" data-revelar="subir">La casa, de cerca</h2>
+      <p data-revelar="subir">Elige una foto para verla en grande.</p>
+    </div>
+    <ul class="mosaico">
+      {
+        galeria.map((f, i) => (
+          <li class={`mosaico-${i + 1}`} data-revelar={["desde-izquierda", "desde-arriba", "desde-derecha", "desde-abajo"][i]} style={`--i: ${i}`}>
+            <a
+              class="mosaico-boton"
+              href={grandes[i]!.src}
+              data-visor-abrir={i}
+              data-grande={grandes[i]!.src}
+              data-srcset={grandes[i]!.srcSet.attribute}
+              data-alt={f.alt}
+              aria-label={`Ampliar: ${f.alt}`}
+            >
+              <Picture
+                src={f.src}
+                formats={["avif", "webp"]}
+                widths={[480, 720, 960, 1200]}
+                sizes={i === 0 || i === 2 ? "(max-width: 899px) 100vw, 40vw" : "(max-width: 899px) 50vw, 25vw"}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                quality={66}
+                style={f.encuadre ? `object-position: ${f.encuadre}` : undefined}
+              />
+              <span class="mosaico-lupa" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 3h4v4M7 15H3v-4M15 3l-5 5M3 15l5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<dialog class="visor" aria-label="Galería ampliada" data-visor>
+  <figure class="visor-figura">
+    <img data-visor-imagen alt="" sizes="100vw" />
+    <figcaption data-visor-texto></figcaption>
+  </figure>
+  <p class="visor-contador" aria-live="polite" data-visor-contador></p>
+  <button class="icono-boton visor-cerrar" type="button" aria-label="Cerrar la galería" data-visor-cerrar>
+    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+  </button>
+  <button class="icono-boton visor-anterior" type="button" aria-label="Foto anterior" data-visor-anterior>
+    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M13.5 5 7.5 11l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+  <button class="icono-boton visor-siguiente" type="button" aria-label="Foto siguiente" data-visor-siguiente>
+    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="m8.5 5 6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+</dialog>

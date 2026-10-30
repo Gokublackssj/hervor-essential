@@ -1,0 +1,133 @@
+/* -------------------------------------------------
+   Visítanos
+-------------------------------------------------- */
+.visitanos-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 2rem;
+  align-items: center;
+}
+
+.visitanos-foto {
+  position: relative;
+  grid-column: 1 / 8;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radio-foto);
+}
+
+.visitanos-foto img,
+.visitanos-foto picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% 60%;
+}
+
+.visitanos-texto {
+  grid-column: 8 / -1;
+}
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: rgb(44 33 26 / 0.85);
+  font-size: 1rem;
+}
+
+.estado-punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--crema-2);
+}
+
+.estado[data-abierto="true"] .estado-punto {
+  background: var(--abierto);
+}
+
+.horario {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.horario th,
+.horario td {
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--linea);
+  color: var(--crema-2);
+  font-weight: 400;
+  text-align: left;
+}
+
+.horario td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.horario tr.es-hoy th,
+.horario tr.es-hoy td {
+  color: var(--crema);
+  font-weight: 600;
+}
+
+.horario tr.es-hoy th::after {
+  content: "hoy";
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--cobre);
+  color: var(--sobre-cobre);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.direccion {
+  margin-top: 1.5rem;
+  font-style: normal;
+}
+
+.visitanos-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+}
+
+/* En el móvil, la foto a sangre y el texto montado sobre su borde inferior,
+   fundido con el fondo para que se lea. */
+@media (max-width: 899px) {
+  .visitanos-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .visitanos-foto {
+    grid-column: 1;
+    margin-inline: calc(-1 * var(--margen));
+    aspect-ratio: 4 / 3;
+    border-radius: 0;
+  }
+
+  .visitanos-foto::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--espresso), rgb(19 15 12 / 0) 40%); /* taste-skill-ignore: veladura de legibilidad */
+    pointer-events: none;
+  }
+
+  .visitanos-texto {
+    position: relative;
+    grid-column: 1;
+    margin-top: -3rem;
+    padding-bottom: 1rem;
+  }
+}

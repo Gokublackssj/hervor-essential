@@ -1,0 +1,42 @@
+---
+import { Picture } from "astro:assets";
+import { fotos } from "../data/fotos";
+---
+
+<!-- La primera pantalla: el titular en tres líneas compuestas, qué es Hervor,
+     las dos acciones y la cifra sobre la que se construye todo. La foto sangra
+     hasta el borde derecho (en el móvil, abre la página encima del texto). -->
+<section class="hero" id="inicio" aria-labelledby="hero-titulo">
+  <div class="hero-foto" data-profundidad="0.06">
+    <Picture
+      src={fotos.hero}
+      formats={["avif", "webp"]}
+      widths={[480, 720, 960, 1280, 1600]}
+      sizes="(max-width: 899px) 100vw, 58vw"
+      alt="Un espresso cayendo del portafiltro a un vaso de vidrio, en la penumbra de la barra"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      quality={70}
+    />
+  </div>
+  <div class="hero-texto">
+    <h1 id="hero-titulo" class="hero-titulo">
+      <span class="linea"><span>Espresso a</span></span>
+      <span class="linea"><span>cuatro mil</span></span>
+      <span class="linea"><span>metros</span></span>
+    </h1>
+    <p class="hero-entrada">
+      Café de especialidad boliviano en el casco histórico de Potosí. Aquí el agua hierve a unos 87 °C, y cada receta está ajustada a eso.
+    </p>
+    <div class="hero-acciones">
+      <a class="boton boton--cobre" href="#carta">Ver la carta</a>
+      <button class="boton boton--linea" type="button" data-abrir-reserva>Reservar mesa</button>
+    </div>
+    <p class="hero-temperatura">
+      <span class="temp-antes" aria-hidden="true">100 °C</span>
+      <span class="temp-cifra"><span data-temperatura aria-hidden="true">87</span><span class="sr">87</span> °C</span>
+      <span class="temp-texto">el punto de ebullición del agua a 4.090 metros, donde preparamos cada taza</span>
+    </p>
+  </div>
+</section>

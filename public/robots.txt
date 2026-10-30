@@ -1,0 +1,3 @@
+# Demo of a fictional business: not meant to be indexed.
+User-agent: *
+Disallow: /

@@ -1,0 +1,83 @@
+/* -------------------------------------------------
+   La casa
+-------------------------------------------------- */
+.casa-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: end;
+}
+
+.casa-foto {
+  grid-column: 1 / 8;
+  grid-row: 1;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radio-foto);
+}
+
+/* El marco sobresale un poco para que la profundidad no deje bordes. */
+.casa-foto .marco {
+  height: 112%;
+  margin-top: -6%;
+}
+
+.casa-texto {
+  position: relative;
+  z-index: 1;
+  grid-column: 7 / -1;
+  grid-row: 1;
+  margin-bottom: clamp(-5rem, -6vw, -2rem);
+  padding: clamp(1.75rem, 3.5vw, 3.25rem);
+  border-radius: var(--radio-panel);
+  background: var(--tueste);
+}
+
+.casa-texto p {
+  margin-top: 1.25rem;
+  max-width: 46ch;
+}
+
+.casa-datos {
+  margin-top: 1.75rem;
+}
+
+.casa-datos {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.casa-datos li {
+  color: var(--crema-2);
+  font-size: 1rem;
+}
+
+.casa-datos strong {
+  color: var(--crema);
+  font-weight: 600;
+}
+
+@media (max-width: 899px) {
+  .casa-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .casa-foto,
+  .casa-texto {
+    grid-column: 1 / -1;
+  }
+
+  .casa-foto {
+    aspect-ratio: 4 / 3;
+  }
+
+  .casa-texto {
+    grid-row: 2;
+    margin: -3rem 0.75rem 0;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .casa-foto {
+    aspect-ratio: 16 / 10;
+  }
+}

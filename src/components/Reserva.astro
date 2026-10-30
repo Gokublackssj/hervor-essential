@@ -1,0 +1,104 @@
+---
+import { reserva } from "../data/horario";
+
+// Reserva de demostración (src/scripts/reserva.ts), en un <dialog> modal:
+//   1. Cuándo: día (los próximos siete, en hora de Bolivia), hora (solo las
+//      que caben en el horario de ese día) y personas.
+//   2. Tus datos: nombre y teléfono o correo, validados.
+//   3. Resumen, para revisar antes de preparar nada.
+//   4. El mensaje de WhatsApp con esos datos, para copiarlo.
+// No se envía nada: el número del negocio sería inventado (y podría ser el de
+// una persona real), así que el botón de WhatsApp está desactivado y nunca se
+// dice que la reserva esté confirmada.
+---
+
+<dialog class="reserva" aria-labelledby="reserva-titulo" data-reserva>
+  <form class="reserva-form" novalidate data-reserva-form>
+    <header class="reserva-cabeza">
+      <div>
+        <h2 id="reserva-titulo" class="reserva-titulo">Reservar mesa</h2>
+        <p class="reserva-paso" data-reserva-paso>Paso 1 de 4</p>
+      </div>
+      <button class="icono-boton" type="button" aria-label="Cerrar la reserva" data-reserva-cerrar>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+      </button>
+      <div class="reserva-progreso" aria-hidden="true"><span data-reserva-barra></span></div>
+    </header>
+
+    <p class="reserva-demo">
+      <strong>Demo.</strong> Esta reserva no se envía a ningún sitio: al final verás el mensaje que se prepararía.
+    </p>
+
+    <section class="reserva-etapa" data-etapa="1" aria-labelledby="etapa-1">
+      <h3 id="etapa-1" class="reserva-etapa-titulo">¿Cuándo vienes?</h3>
+      <fieldset class="campo">
+        <legend>Día</legend>
+        <div class="fichas" data-dias></div>
+      </fieldset>
+      <fieldset class="campo">
+        <legend>Hora <span class="campo-ayuda" data-horas-ayuda></span></legend>
+        <div class="fichas fichas--horas" data-horas></div>
+        <p class="campo-error" id="error-hora" data-error="hora" hidden></p>
+      </fieldset>
+      <div class="campo">
+        <label for="reserva-personas">Personas</label>
+        <div class="contador">
+          <button class="icono-boton" type="button" aria-label="Una persona menos" data-personas="-1">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+          </button>
+          <input id="reserva-personas" name="personas" type="number" inputmode="numeric" min="1" max={reserva.personasMax} value="2" data-personas-valor />
+          <button class="icono-boton" type="button" aria-label="Una persona más" data-personas="1">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M9 4v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+          </button>
+          <span class="campo-ayuda">Hasta {reserva.personasMax}. Para grupos más grandes, escríbenos.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="reserva-etapa" data-etapa="2" aria-labelledby="etapa-2" hidden>
+      <h3 id="etapa-2" class="reserva-etapa-titulo">¿A nombre de quién?</h3>
+      <div class="campo">
+        <label for="reserva-nombre">Nombre</label>
+        <input id="reserva-nombre" name="nombre" type="text" autocomplete="name" maxlength="60" aria-describedby="error-nombre" data-campo="nombre" />
+        <p class="campo-error" id="error-nombre" data-error="nombre" hidden></p>
+      </div>
+      <div class="campo">
+        <label for="reserva-contacto">Teléfono o correo</label>
+        <input id="reserva-contacto" name="contacto" type="text" autocomplete="tel" inputmode="email" maxlength="80" aria-describedby="ayuda-contacto error-contacto" data-campo="contacto" />
+        <p class="campo-ayuda" id="ayuda-contacto">Por ejemplo, 7123 4567 o nombre@correo.com</p>
+        <p class="campo-error" id="error-contacto" data-error="contacto" hidden></p>
+      </div>
+      <div class="campo">
+        <label for="reserva-notas">Algo que debamos saber <span class="campo-ayuda">(opcional)</span></label>
+        <textarea id="reserva-notas" name="notas" rows="3" maxlength="200" data-campo="notas"></textarea>
+      </div>
+    </section>
+
+    <section class="reserva-etapa" data-etapa="3" aria-labelledby="etapa-3" hidden>
+      <h3 id="etapa-3" class="reserva-etapa-titulo">Revisa tu solicitud</h3>
+      <dl class="resumen" data-resumen></dl>
+      <p class="campo-ayuda">Si algo no está bien, vuelve atrás y cámbialo.</p>
+    </section>
+
+    <section class="reserva-etapa" data-etapa="4" aria-labelledby="etapa-4" hidden>
+      <h3 id="etapa-4" class="reserva-etapa-titulo">Tu mensaje está listo</h3>
+      <label class="sr" for="reserva-mensaje">Mensaje para WhatsApp</label>
+      <textarea id="reserva-mensaje" class="mensaje" rows="6" readonly data-mensaje></textarea>
+      <p class="reserva-aviso">
+        En un sitio real, el botón de WhatsApp abriría la conversación con este mensaje para que tú lo envíes, y el café te confirmaría la mesa. En esta demo el número no existe, así que <strong>no se envía nada y no hay ninguna reserva confirmada</strong>.
+      </p>
+      <p class="reserva-copiado" role="status" data-copiado></p>
+    </section>
+
+    <footer class="reserva-pie">
+      <button class="boton boton--texto" type="button" data-reserva-atras hidden>Atrás</button>
+      <span class="reserva-pie-espacio"></span>
+      <button class="boton boton--linea" type="button" data-copiar hidden>Copiar mensaje</button>
+      <button class="boton boton--cobre" type="button" disabled aria-describedby="whatsapp-nota" data-whatsapp hidden>
+        Abrir WhatsApp
+      </button>
+      <span class="sr" id="whatsapp-nota">Desactivado en la demo: el número es inventado.</span>
+      <button class="boton boton--cobre" type="submit" data-reserva-siguiente>Continuar</button>
+    </footer>
+  </form>
+</dialog>

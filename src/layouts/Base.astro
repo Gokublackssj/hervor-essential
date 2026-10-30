@@ -1,0 +1,49 @@
+---
+import "@fontsource-variable/bodoni-moda/opsz.css";
+import "@fontsource-variable/hanken-grotesk/wght.css";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const favicon = `${import.meta.env.BASE_URL}favicon.svg`.replace(/\/{2,}/g, "/");
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- Demo de un negocio ficticio: no debe aparecer en buscadores. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#130F0C" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href={favicon} type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <!-- Antes del primer pintado: "js" indica que hay scripts; "motion", que
+         el visitante no pidió reducir el movimiento (y entonces el contenido
+         puede empezar oculto, esperando su revelado). Si los scripts de la
+         página no llegan en 4 s, se quita "motion" y todo queda visible. -->
+    <script is:inline>
+      (function () {
+        var raiz = document.documentElement;
+        raiz.classList.add("js");
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) raiz.classList.add("motion");
+        setTimeout(function () {
+          if (!raiz.hasAttribute("data-listo")) raiz.classList.remove("motion");
+        }, 4000);
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

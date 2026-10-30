@@ -1,0 +1,18 @@
+/* Hervor, café de altura: estilos por sección. Todo estado oculto para
+   animar depende de html.motion (lo pone Base.astro antes de pintar), así que
+   sin JavaScript o con movimiento reducido la página se ve completa y quieta. */
+
+/* El orden importa: cada sección puede ajustar lo anterior, y el
+   movimiento va al final porque modifica estados de todas. */
+@import "./base.css";
+@import "./cabecera.css";
+@import "./hero.css";
+@import "./secciones.css";
+@import "./casa.css";
+@import "./carta.css";
+@import "./historia.css";
+@import "./galeria.css";
+@import "./visitanos.css";
+@import "./reserva.css";
+@import "./pie.css";
+@import "./movimiento.css";

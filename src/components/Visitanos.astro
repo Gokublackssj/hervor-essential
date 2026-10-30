@@ -1,0 +1,58 @@
+---
+import { Picture } from "astro:assets";
+import { fotos } from "../data/fotos";
+import { direccion, filas, horario, hhmm } from "../data/horario";
+
+// Visítanos: la mesa con la lámpara, que «se enciende» al llegar, junto al
+// horario y la dirección. El estado (abierto o cerrado) y el día de hoy
+// se calculan en la hora de Bolivia (src/scripts/horario.ts). Dirección y
+// teléfono son inventados: no enlazan a un mapa ni marcan un número; sus
+// botones explican que es una demo.
+const rango = (d: number) => `${hhmm(horario[d]!.abre)} – ${hhmm(horario[d]!.cierra)}`;
+---
+
+<section class="seccion visitanos" id="visitanos" aria-labelledby="visitanos-titulo">
+  <div class="contenedor visitanos-grid">
+    <div class="visitanos-foto" data-revelar="lampara">
+      <Picture
+        src={fotos.visita}
+        formats={["avif", "webp"]}
+        widths={[640, 960, 1280, 1600]}
+        sizes="(max-width: 899px) 100vw, 55vw"
+        alt="Una taza sobre una mesa redonda, bajo la luz de una lámpara pequeña, en una sala en penumbra"
+        loading="lazy"
+        decoding="async"
+        quality={66}
+      />
+    </div>
+    <div class="visitanos-texto">
+      <h2 id="visitanos-titulo" class="titulo-2" data-revelar="subir">Hay una mesa para ti</h2>
+      <p class="estado" data-estado data-revelar="subir">
+        <span class="estado-punto" aria-hidden="true"></span>
+        <span data-estado-texto>Horario de Potosí (UTC−4)</span>
+      </p>
+      <table class="horario" data-revelar="filas">
+        <caption class="sr">Horario de apertura</caption>
+        <tbody>
+          {
+            filas.map((f, i) => (
+              <tr data-dias={f.dias.join(",")} style={`--i: ${i}`}>
+                <th scope="row">{f.nombre}</th>
+                <td>{rango(f.dias[0]!)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      <address class="direccion" data-revelar="subir">
+        {direccion.calle}<br />{direccion.zona}
+        <span class="nota-demo">Dirección, horario y teléfono inventados para esta demo.</span>
+      </address>
+      <div class="visitanos-acciones" data-revelar="subir">
+        <button class="boton boton--cobre" type="button" data-abrir-reserva>Reservar mesa</button>
+        <button class="boton boton--linea" type="button" data-demo="mapa">Cómo llegar</button>
+        <button class="boton boton--texto" type="button" data-demo="llamar">Llamar</button>
+      </div>
+    </div>
+  </div>
+</section>

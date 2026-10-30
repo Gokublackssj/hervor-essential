@@ -1,0 +1,107 @@
+---
+import { Picture } from "astro:assets";
+import { carta } from "../data/carta";
+
+// La carta: pestañas accesibles (role="tablist"; flechas, Inicio y Fin) que
+// cambian la foto, la nota sobre la altura y los cuatro productos con sus
+// precios (src/scripts/carta.ts). Sin JavaScript se ven las cuatro categorías
+// seguidas y las pestañas se ocultan.
+const precio = (bs: number) => `Bs ${bs}`;
+---
+
+<section class="seccion carta" id="carta" aria-labelledby="carta-titulo">
+  <div class="contenedor">
+    <div class="seccion-cabeza">
+      <h2 id="carta-titulo" class="titulo-2" data-revelar="subir">La carta</h2>
+      <p data-revelar="subir">
+        Dieciséis preparaciones, cada una ajustada a la altura. Precios en bolivianos.
+        <span class="nota-demo">Productos y precios ficticios de demostración.</span>
+      </p>
+    </div>
+
+    <div class="carta-pestanas" role="tablist" aria-label="Categorías de la carta" data-revelar="subir">
+      {
+        carta.map((c, i) => (
+          <button
+            class="pestana"
+            type="button"
+            role="tab"
+            id={`pestana-${c.id}`}
+            aria-controls={`panel-${c.id}`}
+            aria-selected={i === 0 ? "true" : "false"}
+            tabindex={i === 0 ? 0 : -1}
+            data-pestana={c.id}
+          >
+            {c.nombre}
+          </button>
+        ))
+      }
+      <span class="pestana-indicador" aria-hidden="true" data-indicador></span>
+    </div>
+
+    <div class="carta-cuerpo">
+      <!-- Las cuatro fotos, apiladas; la de la categoría elegida se funde encima. -->
+      <div class="carta-fotos" data-revelar="desde-abajo">
+        {
+          carta.map((c, i) => (
+            <div class:list={["carta-foto", { "es-activa": i === 0 }]} data-foto={c.id}>
+              <Picture
+                src={c.foto}
+                formats={["avif", "webp"]}
+                widths={[480, 720, 960]}
+                sizes="(max-width: 899px) 100vw, 40vw"
+                alt={c.alt}
+                loading="lazy"
+                decoding="async"
+                quality={68}
+                style={c.encuadre ? `object-position: ${c.encuadre}` : undefined}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="carta-paneles" data-revelar="cascada">
+        {
+          carta.map((c, i) => (
+            <div
+              class="carta-panel"
+              role="tabpanel"
+              id={`panel-${c.id}`}
+              aria-labelledby={`pestana-${c.id}`}
+              tabindex="0"
+              hidden={i !== 0}
+              data-panel={c.id}
+            >
+              <h3 class="carta-panel-titulo">{c.nombre}</h3>
+              <ul class="productos">
+                {c.productos.map((p, j) => (
+                  <li class="producto" style={`--i: ${j}`}>
+                    <span class="producto-nombre">{p.nombre}</span>
+                    <span class="producto-precio">{precio(p.precio)}</span>
+                    <span class="producto-desc">{p.descripcion}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="carta-altura" style="--i: 4">
+                <span class="carta-altura-cifra" aria-hidden="true">87°</span>
+                {c.altura}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+  <noscript>
+    <style>
+      .carta-pestanas,
+      .carta-fotos .carta-foto:not(:first-child) {
+        display: none;
+      }
+      .carta-panel[hidden] {
+        display: block;
+      }
+    </style>
+  </noscript>
+</section>

@@ -1,0 +1,49 @@
+/* -------------------------------------------------
+   Secciones
+-------------------------------------------------- */
+.seccion {
+  padding-top: var(--seccion);
+}
+
+.seccion-cabeza {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem 2rem;
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.seccion-cabeza h2 {
+  grid-column: 1 / 8;
+}
+
+.seccion-cabeza p {
+  grid-column: 8 / -1;
+  max-width: 40ch;
+  color: var(--crema-2);
+}
+
+/* En el móvil, una sola columna: doce columnas con sus once huecos ya no
+   caben en 320 px (lo mismo en La casa y en Historia, más abajo). */
+@media (max-width: 899px) {
+  .seccion-cabeza {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .seccion-cabeza h2,
+  .seccion-cabeza p {
+    grid-column: 1 / -1;
+  }
+}
+
+.marco {
+  width: 100%;
+  height: 100%;
+}
+
+.marco img,
+.marco picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

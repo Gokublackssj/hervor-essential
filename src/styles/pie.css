@@ -1,0 +1,123 @@
+/* -------------------------------------------------
+   Pie y avisos
+-------------------------------------------------- */
+.pie {
+  margin-top: var(--seccion);
+  padding-block: 4.5rem 2.5rem;
+  background: var(--tueste);
+}
+
+.pie-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 2.5rem 2rem;
+}
+
+.marca--grande {
+  font-size: clamp(2.75rem, 2rem + 2vw, 4rem);
+}
+
+.pie-marca p:last-child {
+  margin-top: 0.75rem;
+  color: var(--crema-2);
+}
+
+.pie-titulo {
+  margin-bottom: 0.75rem;
+  color: var(--crema-2);
+  font: 600 0.875rem / 1.4 var(--sans);
+}
+
+.pie-lista {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pie-lista a {
+  text-decoration: none;
+}
+
+.pie-lista a:hover {
+  text-decoration: underline;
+}
+
+.pie-demo {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 3.5rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radio-panel);
+  background: var(--nogal);
+  color: var(--crema-2);
+  font-size: 1rem;
+}
+
+.pie-demo strong {
+  color: var(--crema);
+}
+
+.creditos {
+  margin-top: 1.25rem;
+  color: var(--crema-2);
+  font-size: 0.875rem;
+}
+
+.creditos summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--crema);
+}
+
+.creditos ul {
+  columns: 2;
+  gap: 2rem;
+  margin-top: 0.75rem;
+}
+
+.creditos li {
+  padding-block: 0.15rem;
+  break-inside: avoid;
+}
+
+@media (max-width: 899px) {
+  .pie-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pie-marca {
+    grid-column: 1 / -1;
+  }
+
+  .creditos ul {
+    columns: 1;
+  }
+}
+
+.aviso {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  z-index: 120;
+  width: max-content;
+  max-width: min(100% - 2rem, 520px);
+  padding: 0.9rem 1.2rem;
+  border-radius: 14px;
+  background: var(--crema);
+  color: var(--espresso);
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  translate: -50% 150%;
+  transition:
+    opacity 260ms ease,
+    translate 360ms var(--ease-out);
+}
+
+.aviso.es-visible {
+  opacity: 1;
+  translate: -50% 0;
+}

@@ -1,0 +1,80 @@
+---
+import { Picture } from "astro:assets";
+import { fotos } from "../data/fotos";
+
+// Historia y filosofía: el grano grande a un lado; al otro, por qué 87 °C, con
+// una gráfica real del punto de ebullición según la altitud (atmósfera
+// tropical; redondeado, porque la presión cambia con el clima). Las barras se
+// dibujan al entrar en pantalla.
+const alturas = [
+  { lugar: "Nivel del mar", metros: "0 m", grados: 100 },
+  { lugar: "Cochabamba", metros: "2.558 m", grados: 92 },
+  { lugar: "La Paz", metros: "3.640 m", grados: 88 },
+  { lugar: "Potosí", metros: "4.090 m", grados: 87 },
+];
+// La escala empieza en 80 °C para que la diferencia se lea.
+const ancho = (g: number) => `${((g - 80) / 20) * 100}%`;
+---
+
+<section class="seccion historia" id="historia" aria-labelledby="historia-titulo">
+  <div class="contenedor historia-grid">
+    <figure class="historia-grano" data-revelar="desde-abajo">
+      <div class="marco" data-acercar>
+        <Picture
+          src={fotos.grano}
+          formats={["avif", "webp"]}
+          widths={[480, 720, 960, 1200]}
+          sizes="(max-width: 899px) 100vw, 40vw"
+          alt="Un grano de café tostado, de pie, sobre un fondo oscuro"
+          loading="lazy"
+          decoding="async"
+          quality={68}
+        />
+      </div>
+    </figure>
+
+    <div class="historia-texto">
+      <h2 id="historia-titulo" class="titulo-2" data-revelar="subir">Por qué 87 °C</h2>
+      <p data-revelar="subir">
+        A 4.090 metros el agua no llega a 100 °C: hierve a unos 87. Con agua más fría el café se extrae menos, así que molemos más fino, alargamos el contacto y probamos cada receta hasta que sabe como debe.
+      </p>
+      <p data-revelar="subir">
+        Tostamos granos de los Yungas y de Caranavi pensando en esta altura, en lotes pequeños, y los servimos en la misma semana.
+      </p>
+
+      <figure class="altitud" data-revelar="barras">
+        <figcaption>Temperatura a la que hierve el agua</figcaption>
+        <ul>
+          {
+            alturas.map((a, i) => (
+              <li class:list={{ "es-potosi": a.lugar === "Potosí" }} style={`--i: ${i}; --ancho: ${ancho(a.grados)}`}>
+                <span class="altitud-lugar">
+                  {a.lugar} <span>{a.metros}</span>
+                </span>
+                <span class="altitud-barra" aria-hidden="true" />
+                <span class="altitud-grados">≈ {a.grados} °C</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="nota">Valores aproximados; la presión real cambia con el clima de cada día.</p>
+      </figure>
+    </div>
+
+    <figure class="historia-oficio" data-revelar="desde-derecha">
+      <div class="marco">
+        <Picture
+          src={fotos.oficio}
+          formats={["avif", "webp"]}
+          widths={[480, 720, 960, 1200]}
+          sizes="(max-width: 899px) 100vw, 45vw"
+          alt="Una mano sostiene un vaso bajo el portafiltro mientras cae el espresso"
+          loading="lazy"
+          decoding="async"
+          quality={68}
+        />
+      </div>
+      <figcaption>Cada receta se prueba en la barra, a esta altura, antes de entrar en la carta.</figcaption>
+    </figure>
+  </div>
+</section>

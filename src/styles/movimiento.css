@@ -1,0 +1,324 @@
+/* -------------------------------------------------
+   Movimiento. Solo con html.motion: sin él, nada de
+   esto existe y todo está en su sitio.
+-------------------------------------------------- */
+
+/* Entrada del hero, en CSS para que empiece con el primer pintado. */
+.motion .hero-foto picture {
+  animation: abrir-abajo 1300ms var(--ease-out) 80ms both;
+}
+
+.motion .hero-foto img {
+  animation: asentar 1800ms var(--ease-out) 80ms both;
+}
+
+.motion .hero-titulo .linea > span {
+  animation: linea-sube 1000ms var(--ease-out) both;
+}
+
+.motion .hero-titulo .linea:nth-child(1) > span {
+  animation-delay: 260ms;
+}
+
+.motion .hero-titulo .linea:nth-child(2) > span {
+  animation-delay: 380ms;
+}
+
+.motion .hero-titulo .linea:nth-child(3) > span {
+  animation-delay: 500ms;
+}
+
+.motion .hero-entrada {
+  animation: sube 800ms var(--ease-out) 700ms both;
+}
+
+.motion .hero-acciones {
+  animation: sube 800ms var(--ease-out) 820ms both;
+}
+
+.motion .hero-temperatura {
+  animation: sube 800ms var(--ease-out) 940ms both;
+}
+
+.motion .cabecera {
+  animation: aparece 900ms ease 300ms both;
+}
+
+/* La cifra, al terminar de bajar a 87, se calienta un instante. */
+.motion .hero-temperatura.es-final .temp-cifra {
+  animation: brasa 1200ms ease;
+}
+
+/* Revelados al entrar en pantalla (movimiento.ts añade .es-visible). */
+.motion [data-revelar="subir"] {
+  transition:
+    opacity 900ms ease,
+    transform 1000ms var(--ease-out);
+}
+
+.motion [data-revelar="subir"]:not(.es-visible) {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* El recorte va en los hijos: si lo llevara el propio elemento observado,
+   quedaría sin área visible y el observador nunca lo vería entrar. */
+.motion :is([data-revelar="desde-izquierda"], [data-revelar="desde-derecha"], [data-revelar="desde-arriba"], [data-revelar="desde-abajo"]) > * {
+  transition: clip-path 1200ms var(--ease-out) calc(var(--i, 0) * 130ms);
+}
+
+.motion :is([data-revelar="desde-izquierda"], [data-revelar="desde-derecha"], [data-revelar="desde-arriba"], [data-revelar="desde-abajo"]) img {
+  transition: transform 1600ms var(--ease-out) calc(var(--i, 0) * 130ms);
+}
+
+.motion [data-revelar="desde-izquierda"]:not(.es-visible) > * {
+  clip-path: inset(0 100% 0 0);
+}
+
+.motion [data-revelar="desde-derecha"]:not(.es-visible) > * {
+  clip-path: inset(0 0 0 100%);
+}
+
+.motion [data-revelar="desde-arriba"]:not(.es-visible) > * {
+  clip-path: inset(0 0 100% 0);
+}
+
+.motion [data-revelar="desde-abajo"]:not(.es-visible) > * {
+  clip-path: inset(100% 0 0 0);
+}
+
+.motion :is([data-revelar="desde-izquierda"], [data-revelar="desde-derecha"], [data-revelar="desde-arriba"], [data-revelar="desde-abajo"]):not(.es-visible) img {
+  transform: scale(1.1);
+}
+
+/* La carta: los productos entran en cascada y las líneas se dibujan. */
+.motion [data-revelar="desde-abajo"].carta-fotos .carta-foto:not(.es-activa) img {
+  transform: none;
+}
+
+.motion .carta-paneles .producto,
+.motion .carta-paneles .carta-altura {
+  transition:
+    opacity 700ms ease calc(var(--i) * 80ms + 200ms),
+    transform 800ms var(--ease-out) calc(var(--i) * 80ms + 200ms);
+}
+
+.motion .carta-paneles .producto::before {
+  transition: transform 1000ms var(--ease-out) calc(var(--i) * 80ms + 200ms);
+}
+
+.motion .carta-paneles:not(.es-visible) :is(.producto, .carta-altura) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.motion .carta-paneles:not(.es-visible) .producto::before {
+  transform: scaleX(0);
+}
+
+.motion .carta-panel.entrando :is(.producto, .carta-altura) {
+  animation: sube 560ms var(--ease-out) calc(var(--i) * 70ms) backwards;
+}
+
+.motion .carta-panel.entrando .producto::before {
+  animation: dibujar 800ms var(--ease-out) calc(var(--i) * 70ms) backwards;
+}
+
+/* Historia: las barras de la gráfica crecen una tras otra. */
+.motion [data-revelar="barras"] .altitud-barra::after {
+  transition: transform 1200ms var(--ease-out) calc(var(--i) * 140ms + 250ms);
+}
+
+.motion [data-revelar="barras"]:not(.es-visible) .altitud-barra::after {
+  transform: scaleX(0);
+}
+
+.motion [data-revelar="barras"] {
+  transition: opacity 800ms ease;
+}
+
+.motion [data-revelar="barras"]:not(.es-visible) {
+  opacity: 0;
+}
+
+.motion [data-acercar] {
+  transform: scale(1.14);
+  will-change: transform;
+}
+
+.motion [data-profundidad] {
+  will-change: transform;
+}
+
+/* Visítanos: la lámpara «se enciende» al llegar. */
+.motion [data-revelar="lampara"] img {
+  transition: filter 1800ms ease 150ms;
+}
+
+.motion [data-revelar="lampara"]:not(.es-visible) img {
+  filter: brightness(0.2) saturate(0.6);
+}
+
+.motion [data-revelar="filas"] tr {
+  transition:
+    opacity 600ms ease calc(var(--i) * 110ms + 300ms),
+    transform 700ms var(--ease-out) calc(var(--i) * 110ms + 300ms);
+}
+
+.motion [data-revelar="filas"]:not(.es-visible) tr {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+
+/* Reserva: horas y resumen en cascada; cada paso entra desde la derecha. */
+.motion .fichas--horas.entrando .ficha {
+  animation: aparece-sube 380ms var(--ease-out) calc(var(--i) * 22ms) backwards;
+}
+
+.motion .reserva-etapa.entrando {
+  animation: paso-entra 360ms var(--ease-out);
+}
+
+.motion .reserva-etapa.entrando .resumen > div {
+  animation: sube 500ms var(--ease-out) calc(var(--i) * 60ms + 80ms) backwards;
+}
+
+/* Diálogos: entrada y salida. */
+.motion .reserva[open] {
+  animation: modal-entra 340ms var(--ease-out);
+}
+
+.motion .reserva.saliendo {
+  animation: modal-sale 200ms var(--ease-out) forwards;
+}
+
+@media (max-width: 599px) {
+  .motion .reserva[open] {
+    animation: cajon-entra 420ms var(--ease-cajon);
+  }
+
+  .motion .reserva.saliendo {
+    animation: cajon-sale 260ms var(--ease-out) forwards;
+  }
+}
+
+.motion .visor[open],
+.motion .menu-movil[open] {
+  animation: aparece 260ms ease;
+}
+
+.motion .visor.saliendo,
+.motion .menu-movil.saliendo {
+  animation: desaparece 200ms ease forwards;
+}
+
+.motion .visor[open] .visor-figura {
+  animation: visor-foto 420ms var(--ease-out);
+}
+
+.motion .menu-movil[open] .menu-movil-nav a {
+  animation: sube 600ms var(--ease-out) calc(var(--i) * 70ms + 120ms) backwards;
+}
+
+.motion dialog[open]::backdrop {
+  animation: aparece 260ms ease;
+}
+
+@keyframes abrir-abajo {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes asentar {
+  from {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes linea-sube {
+  from {
+    transform: translateY(108%);
+  }
+}
+
+@keyframes sube {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes aparece-sube {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes desaparece {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dibujar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes brasa {
+  40% {
+    color: var(--cobre-claro);
+  }
+}
+
+@keyframes paso-entra {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+
+@keyframes modal-entra {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+}
+
+@keyframes modal-sale {
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+@keyframes cajon-entra {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes cajon-sale {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes visor-foto {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
