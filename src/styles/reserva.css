@@ -283,7 +283,8 @@
   overflow-wrap: anywhere;
 }
 
-.resumen dd:first-letter {
+/* Solo el día («martes 3 de…»); nombre, contacto y nota se muestran tal cual. */
+.resumen > :first-child dd::first-letter {
   text-transform: uppercase;
 }
 

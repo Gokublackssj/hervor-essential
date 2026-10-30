@@ -70,6 +70,12 @@ for (const modo of modos) {
       await expect(paso).toHaveText("Paso 3 de 4");
       await expect(page.locator("[data-resumen] dt")).toHaveText(["Día", "Hora", "Mesa para", "A nombre de", "Contacto", "Nota"]);
       await expect(page.locator("[data-resumen]")).toContainText("8 personas");
+      // Solo el día empieza en mayúscula; el correo y los demás datos, tal como se escribieron.
+      const mayuscula = await page.locator("[data-resumen] dd").evaluateAll((dds) =>
+        dds.map((dd) => getComputedStyle(dd, "::first-letter").textTransform),
+      );
+      expect(mayuscula).toEqual(["uppercase", "none", "none", "none", "none", "none"]);
+      await expect(page.locator("[data-resumen] dd").nth(4)).toHaveText("ana@correo.com");
       await expect(page.locator("[data-reserva-siguiente]")).toHaveText("Preparar el mensaje");
 
       // Atrás conserva los datos.
