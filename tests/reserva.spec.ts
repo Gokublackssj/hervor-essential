@@ -40,10 +40,15 @@ for (const modo of modos) {
       for (const m of horas) expect(m % 30).toBe(0);
       await page.locator("[data-horas] label").first().click();
 
-      // Personas: tope de 8.
-      for (let i = 0; i < 9; i++) await page.locator("[data-personas='1']").click({ force: true });
-      await expect(page.locator("[data-personas-valor]")).toHaveValue("8");
-      await expect(page.locator("[data-personas='1']")).toBeDisabled();
+      // Personas: cada clic suma una, con tope de 8.
+      const mas = page.locator("[data-personas='1']");
+      const personas = page.locator("[data-personas-valor]");
+      await expect(personas).toHaveValue("2");
+      for (let n = 3; n <= 8; n++) {
+        await mas.click();
+        await expect(personas).toHaveValue(String(n));
+      }
+      await expect(mas).toBeDisabled();
 
       await page.locator("[data-reserva-siguiente]").click();
       await expect(paso).toHaveText("Paso 2 de 4");
@@ -100,6 +105,48 @@ for (const modo of modos) {
       await expect(reserva).not.toHaveAttribute("open", "");
       await expect(page.locator("html")).not.toHaveClass(/con-modal/);
       expect(peticiones, "la reserva no envía datos").toEqual([]);
+    });
+
+    test("el contador de personas funciona con teclado y el foco no queda tapado", async ({ page }) => {
+      // Lunes por la mañana: el martes tiene muchas horas y el contador queda
+      // al fondo del formulario, junto al pie fijo.
+      await abrir(page, "?ahora=2026-11-02T10:10");
+      await page.locator(".hero [data-abrir-reserva]").click();
+      await page.locator("[data-dias] label").nth(1).click();
+      await page.locator("[data-horas] label").first().click();
+      const personas = page.locator("[data-personas-valor]");
+      const mas = page.locator("[data-personas='1']");
+      // El elemento con foco se ve entero: nada (como el pie) lo cubre.
+      const tapado = () =>
+        page.evaluate(() => {
+          const e = document.activeElement!;
+          const r = e.getBoundingClientRect();
+          const x = r.left + r.width / 2;
+          return [r.top + 2, r.bottom - 2].some((y) => !e.contains(document.elementFromPoint(x, y)));
+        });
+
+      await page.keyboard.press("Tab");
+      await expect(page.locator("[data-personas='-1']")).toBeFocused();
+      expect(await tapado()).toBe(false);
+      await page.keyboard.press("Tab");
+      await expect(personas).toBeFocused();
+      expect(await tapado()).toBe(false);
+      await page.keyboard.press("Backspace");
+      await page.keyboard.type("5");
+      await page.keyboard.press("Tab");
+      await expect(personas).toHaveValue("5");
+      await expect(mas).toBeFocused();
+      expect(await tapado()).toBe(false);
+      for (let n = 6; n <= 8; n++) {
+        await page.keyboard.press("Enter");
+        await expect(personas).toHaveValue(String(n));
+      }
+      await expect(mas).toBeDisabled();
+
+      // Escribir más del tope también se queda en 8.
+      await personas.fill("12");
+      await personas.press("Tab");
+      await expect(personas).toHaveValue("8");
     });
 
     test("se puede reabrir después de cerrarla", async ({ page }) => {

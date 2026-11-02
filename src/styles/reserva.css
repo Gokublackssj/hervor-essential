@@ -16,6 +16,10 @@
   max-height: inherit;
   overflow-y: auto;
   overscroll-behavior: contain;
+  /* La cabecera y el pie son fijos: sin este margen, lo que recibe el foco
+     (o se desplaza a la vista) en el borde queda tapado por ellos. El pie mide
+     un botón de 48px más 2rem de relleno y el borde. */
+  scroll-padding-block: 6.5rem calc(48px + 2rem + 1px + 0.5rem);
 }
 
 .reserva-cabeza {
